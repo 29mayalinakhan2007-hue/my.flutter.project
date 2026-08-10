@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
+
+import '../widgets/custom_button.dart';
+import '../widgets/custom_text_field.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -9,9 +11,15 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController =
+      TextEditingController();
+
+  final TextEditingController emailController =
+      TextEditingController();
+
+  final TextEditingController passwordController =
+      TextEditingController();
+
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
@@ -24,15 +32,14 @@ class _SignupScreenState extends State<SignupScreen> {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+
     super.dispose();
   }
 
   void createAccount() {
-    Navigator.pushReplacement(
+    Navigator.pushReplacementNamed(
       context,
-      MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
-      ),
+      '/home',
     );
   }
 
@@ -49,21 +56,21 @@ class _SignupScreenState extends State<SignupScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(25),
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               const SizedBox(height: 20),
 
               const Center(
                 child: Icon(
                   Icons.person_add,
-                  size: 80,
+                  size: 75,
                   color: Colors.blue,
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
 
               const Center(
                 child: Text(
@@ -71,18 +78,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 8),
-
-              const Center(
-                child: Text(
-                  'Fill in the information below',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 15,
                   ),
                 ),
               ),
@@ -98,15 +93,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
               const SizedBox(height: 8),
 
-              TextField(
+              CustomTextField(
                 controller: nameController,
-                decoration: InputDecoration(
-                  hintText: 'Enter your full name',
-                  prefixIcon: const Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+                hintText: 'Enter your full name',
+                prefixIcon: Icons.person,
               ),
 
               const SizedBox(height: 18),
@@ -120,16 +110,11 @@ class _SignupScreenState extends State<SignupScreen> {
 
               const SizedBox(height: 8),
 
-              TextField(
+              CustomTextField(
                 controller: emailController,
+                hintText: 'Enter your email',
+                prefixIcon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintText: 'Enter your email',
-                  prefixIcon: const Icon(Icons.email),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
               ),
 
               const SizedBox(height: 18),
@@ -143,28 +128,19 @@ class _SignupScreenState extends State<SignupScreen> {
 
               const SizedBox(height: 8),
 
-              TextField(
+              CustomTextField(
                 controller: passwordController,
+                hintText: 'Create a password',
+                prefixIcon: Icons.lock,
                 obscureText: hidePassword,
-                decoration: InputDecoration(
-                  hintText: 'Create a password',
-                  prefixIcon: const Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      hidePassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        hidePassword = !hidePassword;
-                      });
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+                suffixIcon: hidePassword
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+                onSuffixPressed: () {
+                  setState(() {
+                    hidePassword = !hidePassword;
+                  });
+                },
               ),
 
               const SizedBox(height: 18),
@@ -178,52 +154,28 @@ class _SignupScreenState extends State<SignupScreen> {
 
               const SizedBox(height: 8),
 
-              TextField(
+              CustomTextField(
                 controller: confirmPasswordController,
+                hintText: 'Confirm your password',
+                prefixIcon: Icons.lock_outline,
                 obscureText: hideConfirmPassword,
-                decoration: InputDecoration(
-                  hintText: 'Confirm your password',
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      hideConfirmPassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        hideConfirmPassword = !hideConfirmPassword;
-                      });
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+                suffixIcon: hideConfirmPassword
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+                onSuffixPressed: () {
+                  setState(() {
+                    hideConfirmPassword =
+                        !hideConfirmPassword;
+                  });
+                },
               ),
 
               const SizedBox(height: 30),
 
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: createAccount,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'CREATE ACCOUNT',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+              CustomButton(
+                text: 'CREATE ACCOUNT',
+                icon: Icons.person_add,
+                onPressed: createAccount,
               ),
 
               const SizedBox(height: 20),
@@ -234,10 +186,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   const Text(
                     'Already have an account?',
                   ),
+
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
+
                     child: const Text(
                       'Login',
                       style: TextStyle(

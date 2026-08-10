@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'signup_screen.dart';
-import 'home_screen.dart';
+
+import '../widgets/custom_button.dart';
+import '../widgets/custom_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,8 +11,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController =
+      TextEditingController();
+
+  final TextEditingController passwordController =
+      TextEditingController();
 
   bool hidePassword = true;
 
@@ -23,12 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void login() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const HomeScreen(),
-      ),
-    );
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   @override
@@ -44,20 +43,22 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(25),
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               const SizedBox(height: 30),
 
               Center(
                 child: Container(
                   width: 100,
                   height: 100,
+
                   decoration: BoxDecoration(
                     color: Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(50),
+                    shape: BoxShape.circle,
                   ),
+
                   child: const Icon(
                     Icons.person,
                     size: 60,
@@ -81,33 +82,26 @@ class _LoginScreenState extends State<LoginScreen> {
               const Text(
                 'Login to continue to your account',
                 style: TextStyle(
-                  fontSize: 16,
                   color: Colors.grey,
                 ),
               ),
 
-              const SizedBox(height: 35),
+              const SizedBox(height: 30),
 
               const Text(
                 'Email',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
                 ),
               ),
 
               const SizedBox(height: 8),
 
-              TextField(
+              CustomTextField(
                 controller: emailController,
+                hintText: 'Enter your email',
+                prefixIcon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  hintText: 'Enter your email',
-                  prefixIcon: const Icon(Icons.email),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
               ),
 
               const SizedBox(height: 20),
@@ -116,34 +110,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 'Password',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
                 ),
               ),
 
               const SizedBox(height: 8),
 
-              TextField(
+              CustomTextField(
                 controller: passwordController,
+                hintText: 'Enter your password',
+                prefixIcon: Icons.lock,
                 obscureText: hidePassword,
-                decoration: InputDecoration(
-                  hintText: 'Enter your password',
-                  prefixIcon: const Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      hidePassword
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        hidePassword = !hidePassword;
-                      });
-                    },
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
+                suffixIcon: hidePassword
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+                onSuffixPressed: () {
+                  setState(() {
+                    hidePassword = !hidePassword;
+                  });
+                },
               ),
 
               const SizedBox(height: 10),
@@ -160,49 +144,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 15),
 
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: login,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'LOGIN',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
+              CustomButton(
+                text: 'LOGIN',
+                icon: Icons.login,
+                onPressed: login,
               ),
 
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Don't have an account? ",
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
+                    "Don't have an account?",
                   ),
 
                   TextButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushNamed(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignupScreen(),
-                        ),
+                        '/signup',
                       );
                     },
+
                     child: const Text(
                       'Sign Up',
                       style: TextStyle(

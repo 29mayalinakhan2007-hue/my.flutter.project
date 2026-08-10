@@ -1,6 +1,6 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,12 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(const Duration(seconds: 3), () {
       if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
-          ),
-        );
+        Navigator.pushReplacementNamed(context, '/login');
       }
     });
   }
@@ -72,10 +67,10 @@ class _SplashScreenState extends State<SplashScreen> {
             const SizedBox(height: 10),
 
             const Text(
-              'Learn • Build • Create',
+              'Navigation & Reusable Widgets',
               style: TextStyle(
                 color: Colors.white70,
-                fontSize: 16,
+                fontSize: 15,
               ),
             ),
 
